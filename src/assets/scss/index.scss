@@ -1,0 +1,41 @@
+@import 'null';
+@import 'root';
+
+html,
+body {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  font-family: var(--ff-main);
+  background-color: var(--c-bg-main);
+  color: var(--c-t-main);
+  font-size: var(--fs-n);
+
+  overflow-x: hidden;
+
+  @media (max-width: $xs) {
+    overflow-x: auto;
+  }
+
+  &.look {
+    overflow: hidden;
+  }
+
+  & #root {
+    height: 100%;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

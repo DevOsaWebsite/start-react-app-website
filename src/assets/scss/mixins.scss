@@ -1,0 +1,148 @@
+@mixin anim($time, $delay) {
+  transition: all time ease $delay;
+}
+
+@mixin anim_cubic($time, $delay) {
+  transition: all $time cubic-bezier(0.68, -0.55, 0.265, 1.55 $delay);
+}
+
+@mixin rotate($deg) {
+  transform: rotate($deg);
+}
+
+@mixin scale($num) {
+  transform: scale($num);
+
+}
+
+@mixin skew($num) {
+  transition: skewX($num);
+}
+
+@mixin cnt($h) {
+  display: flex;
+  flex-direction: column;
+  height: $h;
+  text-align: center;
+  align-items: stretch;
+  justify-content: center;
+}
+
+@mixin tr($x, $y, $z) {
+  transform: translate3d($x, $y, $z);
+}
+
+@mixin flexbox($center) {
+  display: flex;
+  font-size: 0;
+
+  @if($center=='center') {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @else {
+    flex-direction: row;
+  }
+}
+
+@mixin flexorder($val) {
+  order: $val;
+}
+
+// <Подключение шрифта>
+@mixin font($font_name, $file_name, $weight, $style) {
+  @font-face {
+    font-family: $font_name;
+    font-display: swap;
+    src: url("../fonts/#{$file_name}.woff") format("woff"),
+    url("../fonts/#{$file_name}.woff2") format("woff2");
+  }
+}
+
+// </Подключение шрифта>
+
+//<Адаптивный шрифт>
+@mixin adaptiv-font($pcSize, $mobSize, $maxSize) {
+  $addSize: $pcSize - $mobSize;
+
+  @if $maxSize==1 {
+    //Только если меньше контейнера
+    font-size: $pcSize+px;
+
+    @media(max-width: #{mw+px}) {
+      font-size: calc(#{$mobSize+px}+#{$addSize}*((100vw-320px)/#{mw-320}));
+    }
+  }
+
+  @else if $maxSize==2 {
+    //Только если больше контейнера
+    font-size: $pcSize+px;
+
+    @media(min-width: #{mw+px}) {
+      font-size: calc(#{$mobSize+px}+#{$addSize}*((100vw-320px)/#{mw-320}));
+    }
+  }
+
+  @else {
+    //Всегда
+    font-size: calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$mw - 320}));
+  }
+}
+
+//</Адаптивный шрифт>
+
+//<Адаптивное свойство>
+@mixin adaptive-value($property, $startSize, $manSize, $type) {
+  $addSize: $startSize-$minSize;
+
+  @if $type==1 {
+    //Только если меньше контейнера
+    #{$property}: $startSize+px;
+
+    @media(max-width:#{$mw+px}) {
+      #{$property}:calc(#{$minSize+px}+#{addSize}*((100vw-320px)/#{$mw-320}));
+    }
+  }
+
+  @else if $type==2 {
+    //Только если больше контейнера
+    #{$property}: $startSize+px;
+
+    @media(min-width:#{$mw+px}) {
+      #{$property}:calc(#{$minSize+px}+#{addSize}*((100vw-320px)/#{$mw-320}));
+    }
+  }
+
+  @else {
+    //Всегда
+    #{$property}:calc(#{$minSize+px}+#{addSize}*((100vw-320px)/#{$mw-320}));
+  }
+}
+
+// Высчитывает односительные величины от заданного PX
+
+// to %% 
+@function prc($pxOne, $pxTwo) {
+  $result: $pxOne / $pxTwo * 100%;
+  @return $result;
+}
+
+// to REM
+@function rem($px) {
+  $result: calc($px / 16) + rem;
+  @return $result;
+}
+
+// to EM
+@function em($px) {
+  $result: calc($px / 16) + em;
+  @return $result;
+}
+
+@function adaptive($lgSize, $smSize) {
+  $result: calc(#{$smSize + px} + #{$lgSize - $smSize} * ((100vw - 320px) / #{$mw - 320}));
+
+  @return $result;
+}
